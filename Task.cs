@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace testTack
 {
-    public class Task : IComparable
+    public class Task
     {
         List<SubTask> subTasks = new List<SubTask>();
         List<SubTask> completedSubTasks = new List<SubTask>();
@@ -120,16 +120,6 @@ namespace testTack
             if (completedSubTasks.Count == 0 && subTasks.Count == 0)
                 return true;
             return false;
-        }
-        int IComparable.CompareTo(object obj)
-        {
-            Task myClass = obj as Task;
-            if (myClass.comlited == false && this.comlited == true)
-                return 1;
-            if (myClass.comlited == true && this.comlited == false)
-                return -1;
-            else
-                return 0;
         }
     }
 }

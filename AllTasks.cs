@@ -10,7 +10,7 @@ namespace testTack
     class AllTasks : IComparer<Task>
     {
         protected List<Task> tasks = new List<Task>();
-        protected List<Task> complitedTasks = new List<Task>();
+        protected List<Task> completedTasks = new List<Task>();
         protected static string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\Desktop\yourTasks.txt";
         public int AddTask(string taskInfo)
         {
@@ -31,12 +31,26 @@ namespace testTack
 
         public bool All()
         {
-            if (tasks.Count == 0 && complitedTasks.Count == 0)
+            if (tasks.Count == 0 && completedTasks.Count == 0)
+            {
                 return false;
+            }
             else
             {
-                tasks.ForEach(task => Console.WriteLine(task.ToString()));
-                complitedTasks.ForEach(task => Console.WriteLine(task.ToString()));
+                tasks.ForEach(task =>
+                {
+                    Console.WriteLine(task.ToString());
+                    if(!task.isEmpty())
+                        Console.WriteLine($"{task.CompletedSubTasks.Count}/{task.CompletedSubTasks.Count + task.SubTasks.Count}");
+                    task.SubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                });
+                completedTasks.ForEach(task =>
+                {
+                    Console.WriteLine(task.ToString());
+                    if (!task.isEmpty())
+                        Console.WriteLine($"{task.CompletedSubTasks.Count}/{task.CompletedSubTasks.Count + task.SubTasks.Count}");
+                    task.CompletedSubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                });
                 return true;
             }
         }
@@ -54,9 +68,9 @@ namespace testTack
         }
         protected bool DeleteByIdInTasks(int id)
         {
-            for(int i = 0; i < tasks.Count; i++)
+            for (int i = 0; i < tasks.Count; i++)
             {
-                if(tasks[i].Id == id)
+                if (tasks[i].Id == id)
                 {
                     tasks.RemoveAt(i);
                     return true;
@@ -66,11 +80,11 @@ namespace testTack
         }
         protected bool DeleteByIdInComplitedTasks(int id)
         {
-            for (int i = 0; i < complitedTasks.Count; i++)
+            for (int i = 0; i < completedTasks.Count; i++)
             {
-                if (complitedTasks[i].Id == id)
+                if (completedTasks[i].Id == id)
                 {
-                    complitedTasks.RemoveAt(i);
+                    completedTasks.RemoveAt(i);
                     return true;
                 }
             }
@@ -82,44 +96,45 @@ namespace testTack
             using (StreamWriter writer = new StreamWriter(path))
             {
                 tasks.ForEach(task => writer.WriteLine(task));
-                complitedTasks.ForEach(task => writer.WriteLine(task));
-            } 
+                completedTasks.ForEach(task => writer.WriteLine(task));
+            }
         }
 
         public bool Save(string pathToFile)
         {
-            try {
+            try
+            {
                 using (StreamWriter writer = new StreamWriter(pathToFile))
                 {
                     tasks.ForEach(task => writer.WriteLine(task));
-                    complitedTasks.ForEach(task => writer.WriteLine(task));
+                    completedTasks.ForEach(task => writer.WriteLine(task));
                     return true;
                 }
             }
-            catch(DirectoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
                 return false;
             }
         }
         public void Load()
         {
-            using(StreamReader reader = new StreamReader(path))
+            using (StreamReader reader = new StreamReader(path))
             {
                 string line;
-                while((line = reader.ReadLine()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
                     string[] taskInfo = line.Split(' ');
                     if (taskInfo.Length == 3 && taskInfo[1] != ((char)0x221A).ToString())
                         tasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: taskInfo[1], deadLine: DateTime.Parse(taskInfo[2])));
                     else if (taskInfo.Length == 3 && taskInfo[1] == ((char)0x221A).ToString())
-                        complitedTasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: (char)0x221A + " " + taskInfo[2]));
+                        completedTasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: (char)0x221A + " " + taskInfo[2]));
                     else if (taskInfo.Length == 2)
                         tasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: taskInfo[1]));
                     else if (taskInfo.Length == 4)
-                        complitedTasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: (char)0x221A + " " + taskInfo[2], deadLine: DateTime.Parse(taskInfo[3])));
+                        completedTasks.Add(new Task(id: int.Parse(taskInfo[0]), nameOfTask: (char)0x221A + " " + taskInfo[2], deadLine: DateTime.Parse(taskInfo[3])));
                     else if (taskInfo[0] == "Ваш" && taskInfo[1] == "список" && taskInfo[2] == "общих") { }
 
-                    
+
                 }
             }
         }
@@ -140,8 +155,8 @@ namespace testTack
                     }
                 }
                 task.TaskInfo = ((char)0x221A) + " " + task.TaskInfo;
-                complitedTasks.Add(task);
-                complitedTasks.Sort(this);
+                completedTasks.Add(task);
+                completedTasks.Sort(this);
                 return true;
             }
             return false;
@@ -150,14 +165,14 @@ namespace testTack
         {
             return o1.Id - o2.Id;
         }
-        public virtual bool Complited()
+        public virtual bool Completed()
         {
-            if (complitedTasks.Count == 0)
+            if (completedTasks.Count == 0)
                 return false;
             else
-                complitedTasks.ForEach(task => Console.WriteLine(task));
+                completedTasks.ForEach(task => Console.WriteLine(task));
             return true;
-            
+
         }
 
         public bool AddDeadline(int id, DateTime dateTime)
@@ -181,14 +196,14 @@ namespace testTack
                 {
                     Console.WriteLine(task);
                     flag = true;
-                } 
+                }
             }
             return flag;
         }
 
         public bool isEmpty()
         {
-            if (tasks.Count != 0 || complitedTasks.Count != 0)
+            if (tasks.Count != 0 || completedTasks.Count != 0)
                 return false;
             return true;
         }
@@ -200,12 +215,7 @@ namespace testTack
 
         public bool isComplitedEmpty()
         {
-            return complitedTasks.Count == 0;
-        }
-
-        public override string ToString()
-        {
-            
+            return completedTasks.Count == 0;
         }
     }
 

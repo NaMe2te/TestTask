@@ -32,12 +32,12 @@ namespace testTack
             foreach (var group in groups.Values)
             {
                 Console.WriteLine($"Группа \"{group.NameOfGroup}\"");
-                if (group.Tasks.Count == 0 && group.ComplitedTasks.Count == 0) 
+                if (group.Tasks.Count == 0 && group.CompletedTasks.Count == 0) 
                     Console.WriteLine($"    Группа \"{group.NameOfGroup}\" пока что не содержит задач."); 
                 else
                 {
                     group.Tasks.ForEach(task => Console.WriteLine($"    {task}"));
-                    group.ComplitedTasks.ForEach(task => Console.WriteLine($"    {task}"));
+                    group.CompletedTasks.ForEach(task => Console.WriteLine($"    {task}"));
                 }
             }
             return true;
@@ -77,12 +77,12 @@ namespace testTack
                     foreach (var group in groups.Values)
                     {
                         writer.WriteLine($"Группа \"{group.NameOfGroup}\"");
-                        if (group.Tasks.Count == 0 && group.ComplitedTasks.Count == 0)
+                        if (group.Tasks.Count == 0 && group.CompletedTasks.Count == 0)
                             writer.WriteLine($"    Группа \"{group.NameOfGroup}\" пока что не содержит задач.");
                         else
                         {
                             group.Tasks.ForEach(task => writer.WriteLine($"    {task}"));
-                            group.ComplitedTasks.ForEach(task => writer.WriteLine($"    {task}"));
+                            group.CompletedTasks.ForEach(task => writer.WriteLine($"    {task}"));
                         }
                     }
                 }
@@ -99,12 +99,12 @@ namespace testTack
                     foreach (var group in groups.Values)
                     {
                         writer.WriteLine($"Группа \"{group.NameOfGroup}\"");
-                        if (group.Tasks.Count == 0 && group.ComplitedTasks.Count == 0)
+                        if (group.Tasks.Count == 0 && group.CompletedTasks.Count == 0)
                             writer.WriteLine($"    Группа \"{group.NameOfGroup}\" пока что не содержит задач.");
                         else
                         {
                             group.Tasks.ForEach(task => writer.WriteLine($"    {task}"));
-                            group.ComplitedTasks.ForEach(task => writer.WriteLine($"    {task}"));
+                            group.CompletedTasks.ForEach(task => writer.WriteLine($"    {task}"));
                         }
                     }
                 }

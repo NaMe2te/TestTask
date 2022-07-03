@@ -12,8 +12,7 @@ namespace testTack
     {
         static void Main(string[] args)
         {
-            Menu menu = new Menu(); 
-            
+            Menu menu = new Menu();
         }
     }
 }

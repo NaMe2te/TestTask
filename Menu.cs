@@ -176,7 +176,7 @@ namespace testTack
                     Console.WriteLine("Список всех ваших выполненных задач:");
                     if(!allTasks.isComplitedEmpty()) 
                     {
-                        allTasks.Complited();    
+                        allTasks.Completed();    
                     }
                     else Console.WriteLine("Ни одной задачи не выполнено.");
                     ContinueChoice();
@@ -378,7 +378,7 @@ namespace testTack
                                 if (!classGroup[idOrNameOfGroup].isComplitedEmpty())
                                 {
                                     Console.WriteLine($"Список всех выполенных задач в группе {idOrNameOfGroup}");
-                                    classGroup[idOrNameOfGroup].Complited();
+                                    classGroup[idOrNameOfGroup].Completed();
                                 }
                                 else
                                     Console.WriteLine($"Список выполненых задач в группе \"{idOrNameOfGroup}\" пуст");
@@ -695,7 +695,7 @@ namespace testTack
             if (classGroup.Search(nameOfTheGroup))
             {
                 Console.WriteLine($"Список всех выполенных задач в группе {nameOfTheGroup}");
-                classGroup[nameOfTheGroup].Complited();
+                classGroup[nameOfTheGroup].Completed();
             }
             else
             {

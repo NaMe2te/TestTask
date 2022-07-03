@@ -10,7 +10,8 @@ namespace testTack
     class Group : AllTasks
     {
         public List<Task> Tasks { get { return tasks; } }
-        public List<Task> ComplitedTasks { get { return complitedTasks; } }
+        public List<Task> CompletedTasks { get { return completedTasks; } }
+        
         public string NameOfGroup { get; set; }
 
         public Group(string NameOfGroup)
@@ -20,25 +21,16 @@ namespace testTack
 
         public bool AllInTheGroup()
         {
-            if (tasks.Count == 0 && complitedTasks.Count == 0)
+            if (tasks.Count == 0)
                 return false;
             else
             {
                 tasks.ForEach(task => Console.WriteLine("    " + task.ToString()));
-                complitedTasks.ForEach(task => Console.WriteLine("    " + task.ToString()));
                 return true;
             }
         }
 
-        public override bool Complited()
-        {
-            if (complitedTasks.Count == 0) return false;
-            else
-            {
-                complitedTasks.ForEach(task => Console.WriteLine($"    {task}"));
-                return true;
-            }
-        }
+        
         public override bool Today()
         {
             bool flag = false;

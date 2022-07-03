@@ -12,6 +12,14 @@ namespace testTack
         protected List<Task> tasks = new List<Task>();
         protected List<Task> completedTasks = new List<Task>();
         protected static string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\Desktop\yourTasks.txt";
+        public Task this[int id]
+        {
+            get => tasks[id];
+        }
+        public Task this[int id]
+        {
+            get => completedTasks[id];
+        }
         public int AddTask(string taskInfo)
         {
             Task task = new Task(taskInfo);
@@ -95,8 +103,24 @@ namespace testTack
         {
             using (StreamWriter writer = new StreamWriter(path))
             {
-                tasks.ForEach(task => writer.WriteLine(task));
-                completedTasks.ForEach(task => writer.WriteLine(task));
+                tasks.ForEach(task =>
+                {
+                    writer.WriteLine(task);
+                    if(!task.isEmpty())
+                    {
+                        task.SubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                        task.CompletedSubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                    }
+                });
+                completedTasks.ForEach(task =>
+                {
+                    writer.WriteLine(task);
+                    if (!task.isEmpty())
+                    {
+                        task.SubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                        task.CompletedSubTasks.ForEach(subTask => Console.WriteLine(subTask));
+                    }
+                });
             }
         }
 
@@ -216,6 +240,34 @@ namespace testTack
         public bool isComplitedEmpty()
         {
             return completedTasks.Count == 0;
+        }
+
+        public void AddSubTask(int id, string subTaskInfo)
+        {
+            for(int i = 0; i < tasks.Count; i++)
+            {
+                if(tasks[i].Id == id)
+                {
+                    tasks[i].Add(subTaskInfo);
+                }
+            }
+        }
+        public void CompleteSubTask(int id)
+        {
+            SubTask subTask = null;
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                if (tasks[i].Id == id)
+                {
+                    tasks.RemoveAt(i);
+                    break;
+                }
+
+            }
+            subTask.subTaskInfo = ((char)0x221A) + " " + subTask.subTaskInfo;
+            CompletedTasks.Add(subTask);
+            completedTasks.Sort(this);
+            return true;
         }
     }
 

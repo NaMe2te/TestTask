@@ -397,6 +397,20 @@ namespace testTack
                     ContinueChoice();
                     break;
 
+                case "/add-subtask":
+                    Console.Write("Введите описание подзадачи: ");
+                    string subTaskInfo = Console.ReadLine();
+                    int _id = int.Parse(idOrNameOfGroup);
+                    allTasks.AddSubTask(_id, subTaskInfo);
+                    ContinueChoice();
+                    break;
+
+                case "/complete-subtask":
+                    _id = int.Parse(idOrNameOfGroup);
+                    allTasks.;
+                    ContinueChoice();
+                    break;
+
                 case "/exit":
                     allTasks.Save();
                     classGroup.Save();
@@ -425,6 +439,8 @@ namespace testTack
             Console.WriteLine("Посмотреть все выполненные задачи \"/completed\"");
             Console.WriteLine();
             Groups();
+            Console.WriteLine();
+            SubTasks();
             Console.WriteLine("Закончить работу программы \"/exit\"");
         }
 
@@ -437,6 +453,18 @@ namespace testTack
             Console.WriteLine("Удалить задачу из группы \"/delete-from-group {name-group}\"");
             Console.WriteLine("Пометить задачу как выполненую в группе \"/complete-in-group {name-group}\"");
             Console.WriteLine("Вывести все выполненые задачи в группе \"/all-completed-in-group {name-group}\"");
+        }
+
+        private void SubTasks()
+        {
+            Console.WriteLine("Добавить к задаче подзадачу \"/add-subtask {id}\"");
+            Console.WriteLine("Добавить к задаче, которая находится в группе, подзадачу \"/add-subtask-to-group {name-group}\"");
+            Console.WriteLine("Отметить подзадачу как выполненую \"/compelte-subtask {id}\"");
+            Console.WriteLine("Отметить подзадачу как выполненую в группе \"/compelte-subtask-to-group {name-group}\"");
+            Console.WriteLine("Удалить подзадачу \"/delete-subtask {id}\"");
+            Console.WriteLine("Удалить подзадачу в группе \"/delete-subtask-in-group {name-group}\"");
+            Console.WriteLine("Вывести список выполненых подзадач \"/completed-subtask\"");
+            Console.WriteLine("Вывести список выполненых подзадач в группе \"/completed-subtask {name-group}\"");
         }
 
         private void ContinueChoice()

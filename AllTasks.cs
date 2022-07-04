@@ -16,10 +16,7 @@ namespace testTack
         {
             get => tasks[id];
         }
-        public Task this[int id]
-        {
-            get => completedTasks[id];
-        }
+        
         public int AddTask(string taskInfo)
         {
             Task task = new Task(taskInfo);

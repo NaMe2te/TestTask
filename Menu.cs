@@ -407,7 +407,7 @@ namespace testTack
 
                 case "/complete-subtask":
                     _id = int.Parse(idOrNameOfGroup);
-                    allTasks.;
+                    allTasks.CompleteSubTask(_id);
                     ContinueChoice();
                     break;
 

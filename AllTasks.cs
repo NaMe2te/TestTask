@@ -12,10 +12,6 @@ namespace testTack
         protected List<Task> tasks = new List<Task>();
         protected List<Task> completedTasks = new List<Task>();
         protected static string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\Desktop\yourTasks.txt";
-        public Task this[int id]
-        {
-            get => tasks[id];
-        }
         
         public int AddTask(string taskInfo)
         {
@@ -249,23 +245,30 @@ namespace testTack
                 }
             }
         }
-        public void CompleteSubTask(int id)
+        public void CompleteSubTask(double id)
         {
-            SubTask subTask = null;
+            int taskId = (int)id;
             for (int i = 0; i < tasks.Count; i++)
             {
-                if (tasks[i].Id == id)
+                if (tasks[i].Id == taskId)
                 {
-                    tasks.RemoveAt(i);
-                    break;
+                    for(int j = 0; j < tasks[i].SubTasks.Count; j++)
+                    {
+                        if (tasks[i].SubTasks[j].SubId == id)
+                        {
+                            SubTask subTask = tasks[i].SubTasks[j];
+                            tasks[i].SubTasks.RemoveAt(j);
+                            subTask.subTaskInfo = ((char)0x221A) + " " + subTask.subTaskInfo;
+                            tasks[i].CompletedSubTasks.Add(subTask);
+                            completedTasks.Sort(this);
+                            break;
+                        }
+                    }
                 }
 
             }
-            subTask.subTaskInfo = ((char)0x221A) + " " + subTask.subTaskInfo;
-            CompletedTasks.Add(subTask);
-            completedTasks.Sort(this);
-            return true;
         }
+
     }
 
     /*class AllTasksCompare : IComparer<Task>
